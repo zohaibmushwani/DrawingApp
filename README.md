@@ -13,15 +13,16 @@ This Android app combines Room Database, canvas drawing, Data Binding, and View 
 
 3. **Data Binding & View Binding:**
    - Used for efficient UI updates.
+  
+- [x] Implemented canvas drawing functionality.
+- [x] Added feature to clear strokes.
+- [x] Implemented color changing functionality.
 
 ## Remaining Tasks
 
 - [ ] Implement Data Binding for UI updates.
 - [ ] Integrate Room Database for data storage.
 - [ ] Save drawings in Room Database.
-- [ ] Write unit tests.
-- [ ] Additional features (optional).
-- [ ] Optimize performance (optional).
 
 ## Build & Run
 
