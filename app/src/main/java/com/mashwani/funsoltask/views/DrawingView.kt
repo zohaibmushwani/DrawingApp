@@ -1,16 +1,25 @@
 package com.mashwani.funsoltask.views
 
 
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
+import android.media.MediaScannerConnection
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import android.widget.Toast
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import kotlin.math.abs
 
 private const val STROKE_WIDTH = 12f
@@ -124,6 +133,36 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         }
 
         invalidate()
+    }
+
+    fun saveCanvasToGallery() {
+        val bitmap = extraBitmap
+        val canvas = Canvas(extraBitmap)
+        draw(canvas)
+
+        val fileName = "drawing_${System.currentTimeMillis()}.png"
+
+        val picturesDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        val file = File(picturesDirectory, fileName)
+
+        try {
+            FileOutputStream(file).use { outputStream ->
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                outputStream.flush()
+            }
+
+            MediaScannerConnection.scanFile(
+                context,
+                arrayOf(file.path),
+                arrayOf("image/png")
+            ) { _, uri ->
+                Log.d("SaveCanvas", "Image saved to: $uri")
+            }
+
+            Toast.makeText(context, "Image saved to $file", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(context, "Error saving image: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun touchUp() {

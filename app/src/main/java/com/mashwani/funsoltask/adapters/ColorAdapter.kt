@@ -10,7 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mashwani.funsoltask.R
 import com.mashwani.funsoltask.utils.SharedPreferencesHelper
 
-class ColorAdapter(private val colors: IntArray, private var selectedColorPosition: Int = 0, private val onColorSelected: (Int) -> Unit) :
+
+
+class ColorAdapter(
+    private val colors: IntArray,
+    private var selectedColorPosition: Int = 0,
+    private val onColorSelected: (Int) -> Unit
+) :
     RecyclerView.Adapter<ColorAdapter.ColorViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder {
@@ -33,7 +39,10 @@ class ColorAdapter(private val colors: IntArray, private var selectedColorPositi
             if (clickedPosition != RecyclerView.NO_POSITION) {
                 selectedColorPosition = clickedPosition
                 notifyDataSetChanged()
-                SharedPreferencesHelper.saveInt(SharedPreferencesHelper.SELECTED_COLOR,clickedPosition)
+                SharedPreferencesHelper.saveInt(
+                    SharedPreferencesHelper.SELECTED_COLOR,
+                    clickedPosition
+                )
                 onColorSelected(colors[clickedPosition])
             }
         }
